@@ -19,10 +19,6 @@ script.podlove-subscribe-button {
   text-transform: uppercase;
   transition: all 0.1s $podlove-easing;
 
-  &:focus {
-    outline: none;
-  }
-
   span {
     display: inline-block;
     position: relative;
