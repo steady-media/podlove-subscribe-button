@@ -121,7 +121,8 @@ class ClientsPanel extends Panel
     @container.insertAdjacentHTML('beforeend', html)
     @elem = @container.querySelector('.podlove-subscribe-button-clients-panel')
 
-    items = @elem.querySelectorAll('li a,button')
+    items = @elem.querySelectorAll('li a,button[data-other-client]')
+
     Array.prototype.forEach.call items, (item) =>
       item.addEventListener 'click', (event) =>
         client = event.target.dataset.client
@@ -194,7 +195,7 @@ class ClientsPanel extends Panel
           </li>
           {{/each}}
           <li>
-            <button data-client="rss">
+            <button data-client="rss" data-other-client>
               <img src="{{otherClient.icon}}">
               {{t "clients_panel.other_client"}}
             </button>
