@@ -193,6 +193,13 @@ Use gulp to build the project or start the server:
 
     yarn run dev
 
+### How to deploy
+
+1. Make a build.
+2. Put it in the steady-cdn under files/podigee_podcast_player/[date]-[git-sha].
+3. Commit that to steady-cdn, push to master, run the deploy script in that repo.
+4. Push a commit to main app staging that changes this URL: https://github.com/steady-media/main_app/blob/eb807fafd5c2b25d019bcde91aa34d2558139144/assets/js/components/podlove_subscribe_button.js#L10.
+
 ## Contribution
 
 If you want to help us translate the button to other languages, please [sign up here](https://podlove.oneskyapp.com/collaboration/project?id=14564) and let us know if you need any help!
