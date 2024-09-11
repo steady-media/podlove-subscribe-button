@@ -33,6 +33,9 @@ class Popup
     @body.insertAdjacentHTML('beforeend', html)
     @elem = @body.querySelector('#podlove-subscribe-popup')
     @disableBackgroundScrolling()
+    @elem.focus()
+    @elem.addEventListener 'keydown', (event) =>
+      @onFocus(event)
 
     # remove animation class for fadein animation
     window.setTimeout =>
@@ -93,8 +96,26 @@ class Popup
       @elem.parentNode.removeChild(@elem)
     , 500
 
+  onFocus: (event) ->
+    @focusableElementsSelector = 'a[href], :enabled:not([type="hidden"]), [tabindex="0"]'
+    @target = event.currentTarget
+    @focusable = Array.from(@target.querySelectorAll(@focusableElementsSelector))
+    @first = @focusable[0]
+    @last = @focusable[@focusable.length - 1]
+
+    if event.key == 'Tab'
+      # keep focus within the popup
+      # it's enough to intercept focus change from the first and last elements
+      # and let the browser handle focus changes between other focusable elements in the dialog
+      if (!event.shiftKey && event.target == @last)
+        @first.focus()
+        event.preventDefault()
+      else if (event.shiftKey && event.target == @first)
+        @last.focus()
+        event.preventDefault()
+
   template: Handlebars.compile('
-    <div id="podlove-subscribe-popup" class="podlove-subscribe podlove-subscribe-popup-animate">
+    <div id="podlove-subscribe-popup" tabindex="0" class="podlove-subscribe podlove-subscribe-popup-animate">
       <div id="podlove-subscribe-popup-modal">
         <div id="podlove-subscribe-popup-modal-inner" class="show-left">
           <div class="top-bar">
@@ -103,7 +124,6 @@ class Popup
             <span class="panel-title">{{t "panels.title"}}</span>
             <span id="podlove-subscribe-popup-close-button" class="podlove-subscribe-install-button"></span>
           </div>
-
           <div id="podlove-subscribe-panel-container">
             <div id="podlove-subscribe-panel-podcast"></div>
             <div id="podlove-subscribe-panel-clients"></div>

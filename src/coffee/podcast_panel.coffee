@@ -23,6 +23,7 @@ class PodcastPanel extends Panel
     html = @template(@context())
     @container.insertAdjacentHTML('beforeend', html)
     @elem = @container.querySelector('.podlove-subscribe-button-podcast-panel')
+    @elem.querySelector('.podlove-subscribe-button').focus()
 
     @elem.querySelector('button').addEventListener 'click', (event) =>
       @parent.movePanels(1)
